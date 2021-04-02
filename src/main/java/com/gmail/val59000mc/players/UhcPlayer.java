@@ -22,6 +22,7 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.RenderType;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
@@ -231,6 +232,7 @@ public class UhcPlayer {
 		if (gm.getConfiguration().getHeartsOnTab()) {
 			Objective health = VersionUtils.getVersionUtils().registerObjective(scoreboard, "health_tab", "health");
 			health.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+			health.setRenderType(RenderType.HEARTS);
 		}
 
 		if (gm.getConfiguration().getHeartsBelowName()) {

@@ -34,8 +34,10 @@ public class WorldBorderThread implements Runnable{
 		
 		World overworld = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
 		WorldBorder overworldBorder = overworld.getWorldBorder();
-		overworldBorder.setSize(2*endSize, timeToShrink);
-		
+		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> {
+			overworldBorder.setSize(2*endSize, timeToShrink);
+		});
+
 		World nether = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
 		if (nether != null) {
 			WorldBorder netherBorder = nether.getWorldBorder();

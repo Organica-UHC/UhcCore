@@ -531,7 +531,7 @@ public class PlayersManager{
 
 		long delayTeleportByTeam = 0;
 
-		for(UhcTeam team : listUhcTeams()){
+		for(UhcTeam team : listUhcTeams()) {
 
 			if (team.isSpectating()){
 				gm.getPlayersManager().setPlayerSpectateAtLobby(team.getLeader());
@@ -544,7 +544,7 @@ public class PlayersManager{
 
 			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), new TeleportPlayersThread(GameManager.getGameManager(), team), delayTeleportByTeam);
 			Bukkit.getLogger().info("[UhcCore] Teleporting a team in "+delayTeleportByTeam+" ticks");
-			delayTeleportByTeam += 1000 / 20; // ticks
+			delayTeleportByTeam += 10; // ticks
 		}
 
 		Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> GameManager.getGameManager().startWatchingEndOfGame(), delayTeleportByTeam + 20);

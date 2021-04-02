@@ -60,7 +60,13 @@ public class UpdateScoreboardThread implements Runnable{
 			resetObjective();
 			scoreboardManager.updatePlayerTab(uhcPlayer);
 		}
-
+		Objective health_tab = scoreboard.getObjective("health_tab");
+		if (health_tab != null) {
+			for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+				double health = onlinePlayer.getHealth();
+				health_tab.getScore(onlinePlayer.getName()).setScore(((int) health));
+			}
+		}
 		int i = 0;
 		for (String line : scoreboardLayout.getLines(scoreboardType)){
 
