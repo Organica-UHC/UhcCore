@@ -35,13 +35,17 @@ public class WorldBorderThread implements Runnable{
 		World overworld = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getOverworldUuid());
 		WorldBorder overworldBorder = overworld.getWorldBorder();
 		Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> {
+			overworldBorder.setWarningTime(30);
 			overworldBorder.setSize(2*endSize, timeToShrink);
 		});
 
 		World nether = Bukkit.getWorld(GameManager.getGameManager().getConfiguration().getNetherUuid());
 		if (nether != null) {
 			WorldBorder netherBorder = nether.getWorldBorder();
-			netherBorder.setSize(endSize, timeToShrink);
+			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> {
+				netherBorder.setWarningTime(30);
+				netherBorder.setSize(endSize, timeToShrink);
+			});
 		}
 	}
 
