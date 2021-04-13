@@ -365,6 +365,7 @@ public class UhcItems{
 
 		itemMeta.setDisplayName(Lang.ITEMS_GOLDEN_HEAD_APPLE_NAME);
 		itemMeta.setLore(Collections.singletonList(Lang.ITEMS_GOLDEN_HEAD_APPLE_HELP));
+		itemMeta.setCustomModelData(1);
 
 		itemStack.setItemMeta(itemMeta);
 		return itemStack;
