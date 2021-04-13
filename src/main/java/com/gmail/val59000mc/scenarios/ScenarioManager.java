@@ -93,7 +93,6 @@ public class ScenarioManager {
     public Inventory getScenarioMainInventory(boolean editItem){
 
         Inventory inv = Bukkit.createInventory(null,3*ROW, Lang.SCENARIO_GLOBAL_INVENTORY);
-
         for (Scenario scenario : getActiveScenarios()) {
             if (scenario.isCompatibleWithVersion()) {
                 inv.addItem(scenario.getScenarioItem());
