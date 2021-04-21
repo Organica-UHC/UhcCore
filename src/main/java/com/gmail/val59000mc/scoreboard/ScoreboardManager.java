@@ -5,10 +5,12 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.kit.Kit;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.*;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.scenarios.ScenarioManager;
 import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
 import com.gmail.val59000mc.scoreboard.placeholders.BlocksToTeamLeader;
 import com.gmail.val59000mc.scoreboard.placeholders.ScenariosPlaceholder;
@@ -122,7 +124,9 @@ public class ScoreboardManager {
                 if (uhcTeam.contains(scoreboardPlayer)) {
 
                     Team team = scoreboard.registerNewTeam("0" + uhcTeam.getTeamNumber());
-                    team.setPrefix(uhcTeam.getPrefix());
+                    GameManager gameManager = GameManager.getGameManager();
+                    boolean hidePrefix = gameManager.getGameState().equals(GameState.PLAYING) && gameManager.getScenarioManager().isActivated(Scenario.ANONYMOUS);
+                    team.setPrefix(!hidePrefix ? uhcTeam.getPrefix() : ChatColor.RESET + "");
                     team.setSuffix(ChatColor.RESET + "");
 
                     for (UhcPlayer member : uhcTeam.getMembers()) {
@@ -149,7 +153,9 @@ public class ScoreboardManager {
                 }else{
 
                     Team team = scoreboard.registerNewTeam("" + uhcTeam.getTeamNumber());
-                    team.setPrefix(uhcTeam.getPrefix());
+                    GameManager gameManager = GameManager.getGameManager();
+                    boolean hidePrefix = gameManager.getGameState().equals(GameState.PLAYING) && gameManager.getScenarioManager().isActivated(Scenario.ANONYMOUS);
+                    team.setPrefix(!hidePrefix ? uhcTeam.getPrefix() : ChatColor.RESET + "");
                     team.setSuffix(ChatColor.RESET + "");
 
                     if (gm.getConfiguration().getDisableEnemyNametags()){
@@ -228,7 +234,9 @@ public class ScoreboardManager {
                         if (team == null){
                             team = scoreboard.registerNewTeam("0" + uhcPlayer.getTeam().getTeamNumber());
                         }
-                        team.setPrefix(uhcPlayer.getTeam().getPrefix());
+                        GameManager gameManager = GameManager.getGameManager();
+                        boolean hidePrefix = gameManager.getGameState().equals(GameState.PLAYING) && gameManager.getScenarioManager().isActivated(Scenario.ANONYMOUS);
+                        team.setPrefix(!hidePrefix ? uhcPlayer.getTeam().getPrefix() : ChatColor.RESET + "");
                         team.setSuffix(ChatColor.RESET + "");
                         team.addEntry(uhcPlayer.getName());
 
@@ -243,7 +251,9 @@ public class ScoreboardManager {
                                 VersionUtils.getVersionUtils().setTeamNameTagVisibility(team, false);
                             }
                         }
-                        team.setPrefix(uhcPlayer.getTeam().getPrefix());
+                        GameManager gameManager = GameManager.getGameManager();
+                        boolean hidePrefix = gameManager.getGameState().equals(GameState.PLAYING) && gameManager.getScenarioManager().isActivated(Scenario.ANONYMOUS);
+                        team.setPrefix(!hidePrefix ? uhcPlayer.getTeam().getPrefix() : ChatColor.RESET + "");
                         team.setSuffix(ChatColor.RESET + "");
                         team.addEntry(uhcPlayer.getName());
                     }

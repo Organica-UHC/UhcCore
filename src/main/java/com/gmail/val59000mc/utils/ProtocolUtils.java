@@ -5,10 +5,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.PlayerInfoData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.*;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesntExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
@@ -67,7 +64,17 @@ public class ProtocolUtils{
                         continue;
                     }
 
+                    // The packet receiver so don't change player data.
+                    if (uhcPlayer.getUuid().equals(event.getPlayer().getUniqueId())){
+                        newPlayerInfoDataList.add(playerInfoData);
+                        continue;
+                    }
+
                     profile = profile.withName(uhcPlayer.getName());
+
+                    String value = "ewogICJ0aW1lc3RhbXAiIDogMTYxODQwOTM1NDA1OCwKICAicHJvZmlsZUlkIiA6ICI5NTE0MjkzYTI4NzM0MWYwYmIyZDg3NWI3N2Q4NmM1MSIsCiAgInByb2ZpbGVOYW1lIiA6ICJ6ZXJleCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82MjlhYmQ5MTY0MzAzYjJjZTIwNmYwZGY0YjAyNTg2OTBkOWFiYjRlMzZiYTk2OGZiNWFjZmVjNWMwZmQ3YzUwIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=";
+                    String signature = "MVj9BiEEs2FiivQn73DOFS+D9HNRyggqUucSf0R1WOzXi9+tSsLvNjOGhqJepGJOuG52T9nuk5QfoExeOXgGzN8NgAnGLXA4Tr9Lpckh38UeUUhK4E3Ggcw7mHBLtAUyHUAr88+f8jjkVE0Tw8qLb/bCpWTcH2BlbGXxKbPaz4gXhrWFNxTXvsa5+QnOqb9w1Lxx1eSrkVQoSVrhDXE0lHah3bCoA8HPdVtDK46XntLy2x5Ya0EVeK0Y990LPzxOUEtVnjUJO53Uy4n09FXpDdMrdDY8w9OLC546RR8nwQO9617MBRVgUX5OuZYNMrkr2BWjCRBOe3CKDr48wdt3DH7mpH/oUs2CwRMUssvgCg+ys27Wb4pp7pH3Bu54sLp2Xt7fVR2eKjCZiH0HtTjCk4fk12o+DC2gRXSOPX19ow/p+bPgVQScBH271irGL/V+tuUKd5xe55qnSXpMruObWK8q4w6iTz6svgXPAIy0SVEWcBgXeLMFxqV2+oKGfY+i1Z3LmmenLcz4tH+5hN+85KVthJwsbR5mzSBkr+UDx7AXfGaoXlm3giw+l834UjtU3UYUSSsvyJhrZi7Tt6fHnwVGC+T6tuoOha/peEUFNIBe03KPMavTsykux5Itwd8kXb9BUw+uFHao+2fmwy5mBmcHDW3GOanBWMs3+rljcNQ=";
+                    profile.getProperties().put("textures", new WrappedSignedProperty("textures", value, signature));
 
                     PlayerInfoData newPlayerInfoData = new PlayerInfoData(profile, playerInfoData.getPing(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
                     newPlayerInfoDataList.add(newPlayerInfoData);

@@ -5,6 +5,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerState;
+import com.gmail.val59000mc.players.PlayersManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scoreboard.ScoreboardLayout;
 import com.gmail.val59000mc.scoreboard.ScoreboardManager;
@@ -12,6 +13,7 @@ import com.gmail.val59000mc.scoreboard.ScoreboardType;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
@@ -62,9 +64,11 @@ public class UpdateScoreboardThread implements Runnable{
 		}
 		Objective health_tab = scoreboard.getObjective("health_tab");
 		if (health_tab != null) {
+			PlayersManager playersManager = GameManager.getGameManager().getPlayersManager();
 			for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 				double health = onlinePlayer.getHealth() + onlinePlayer.getAbsorptionAmount();
 				health_tab.getScore(onlinePlayer.getName()).setScore(((int) health));
+				health_tab.getScore(playersManager.getUhcPlayer(onlinePlayer).getName()).setScore(((int) health));
 			}
 		}
 		int i = 0;

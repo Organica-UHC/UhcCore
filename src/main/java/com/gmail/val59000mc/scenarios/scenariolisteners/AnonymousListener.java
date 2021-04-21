@@ -75,14 +75,14 @@ public class AnonymousListener extends ScenarioListener{
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append(ChatColor.MAGIC);
-        sb.append(name);
+        sb.append("\uF800");
+        sb.append(name.toUpperCase().replace('I', '='));
 
         while (sb.length() < 14){
-            sb.append("A");
+            sb.append("\uF826");
         }
 
-        sb.append(ChatColor.RESET);
+        sb.append("\uF820");
         return sb.toString();
     }
 
