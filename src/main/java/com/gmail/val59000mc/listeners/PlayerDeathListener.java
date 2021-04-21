@@ -5,6 +5,7 @@ import com.gmail.val59000mc.configuration.MainConfiguration;
 import com.gmail.val59000mc.configuration.VaultManager;
 import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.events.UhcPlayerKillEvent;
+import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
@@ -116,8 +117,12 @@ public class PlayerDeathListener implements Listener{
 		}
 
 		uhcPlayer.setState(PlayerState.DEAD);
-		pm.strikeLightning(uhcPlayer);
-		pm.playSoundPlayerDeath();
+//		pm.strikeLightning(uhcPlayer);
+		try {
+			pm.playSoundPlayerDeath(uhcPlayer.getPlayer().getLocation());
+		} catch (UhcPlayerNotOnlineException e) {
+			pm.playSoundPlayerDeath(null);
+		}
 
 		// handle player leaving the server
 		boolean canContinueToSpectate = player.hasPermission("uhc-core.spectate.override")

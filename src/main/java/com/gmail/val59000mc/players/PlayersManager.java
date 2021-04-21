@@ -869,11 +869,13 @@ public class PlayersManager{
 		}
 	}
 
-	public void playSoundPlayerDeath() {
-		Sound sound = GameManager.getGameManager().getConfiguration().getSoundOnPlayerDeath();
-		if(sound != null){
-			for(Player player : Bukkit.getOnlinePlayers()){
-				player.playSound(player.getLocation(), sound, 1, 1);
+	public void playSoundPlayerDeath(Location deathLocation) {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (deathLocation != null && player.getWorld() == deathLocation.getWorld()) {
+				deathLocation.setY(300);
+				player.playSound(deathLocation, "organica:dead", SoundCategory.PLAYERS, 10000, 1);
+			} else {
+				player.playSound(player.getLocation(), "organica:dead_stereo", SoundCategory.PLAYERS, .5f, 1);
 			}
 		}
 	}
@@ -964,8 +966,12 @@ public class PlayersManager{
 		}
 
 		uhcPlayer.setState(PlayerState.DEAD);
-		pm.strikeLightning(uhcPlayer);
-		pm.playSoundPlayerDeath();
+//		pm.strikeLightning(uhcPlayer);
+		try {
+			pm.playSoundPlayerDeath(uhcPlayer.getPlayer().getLocation());
+		} catch (UhcPlayerNotOnlineException e) {
+			pm.playSoundPlayerDeath(null);
+		}
 
 		pm.checkIfRemainingPlayers();
 	}
