@@ -60,6 +60,7 @@ public class Lang{
 	public static String KICK_PLAYING;
 	public static String KICK_ENDED;
 	public static String KICK_DEAD;
+	public static String KICK_CAUSE;
 
 	public static String COMMAND_CHAT_GLOBAL;
 	public static String COMMAND_CHAT_TEAM;
@@ -267,6 +268,7 @@ public class Lang{
 		KICK_PLAYING = getString(lang, "kick.playing", "Playing ... You can't join.");
 		KICK_ENDED = getString(lang, "kick.ended", "Ended ... Please retry in a few minutes.");
 		KICK_DEAD = getString(lang, "kick.dead", "You are dead!");
+		KICK_CAUSE = getString(lang, "kick.cause", "Death cause:");
 
 		// Command
 		COMMAND_CHAT_GLOBAL = getString(lang, "command.chat-global", "&aYou are now talking to everyone");
