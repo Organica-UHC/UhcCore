@@ -345,6 +345,7 @@ public class GameManager{
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doDaylightCycle", true);
 			overworld.setTime(0);
 		}
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doWeatherCycle", true);
 
 		// scenario voting
 		if (configuration.getEnableScenarioVoting()) {
@@ -510,6 +511,7 @@ public class GameManager{
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "logAdminCommands", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "sendCommandFeedback", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", false);
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doWeatherCycle", false);
 		//VersionUtils.getVersionUtils().setGameRuleValue(overworld, "spectatorGenerateChunks", false);
 		if (configuration.isHideCoordinates()) {
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "reducedDebugInfo", true);
@@ -518,7 +520,6 @@ public class GameManager{
 		}
 		overworld.setTime(6000);
 		overworld.setDifficulty(configuration.getGameDifficulty());
-		overworld.setWeatherDuration(999999999);
 
 		if (configuration.getEnableNether()){
 			World nether = Bukkit.getWorld(configuration.getNetherUuid());
