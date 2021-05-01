@@ -96,18 +96,22 @@ public class TimebombListener extends ScenarioListener{
             VersionUtils.getVersionUtils().setChestSide(chest1, false);
             VersionUtils.getVersionUtils().setChestSide(chest2, true);
 
-            Inventory inv = chest1.getInventory();
+            Inventory chestInventory1 = chest1.getInventory();
+            Inventory chestInventory2 = chest2.getInventory();
 
-            for (ItemStack drop : drops){
-                inv.addItem(drop);
+            for (int i = 0; i < drops.size(); i++) {
+                ItemStack drop = drops.get(i);
+                if (i < 27) chestInventory1.addItem(drop);
+                else chestInventory2.addItem(drop);
             }
 
-            loc.add(1,-1,.5);
+            loc.add(1,1,.5);
 
             armorStand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
             armorStand.setCustomNameVisible(true);
             armorStand.setGravity(false);
             armorStand.setVisible(false);
+            armorStand.setMarker(true);
             armorStand.setCustomName("");
         }
     }
