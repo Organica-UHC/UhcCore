@@ -2,6 +2,7 @@ package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
+import com.gmail.val59000mc.maploader.MapLoader;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,7 +28,19 @@ public class PingListener implements Listener{
 				event.setMotd(Lang.DISPLAY_MOTD_ENDED);
 				break;
 			case LOADING:
-				event.setMotd(Lang.DISPLAY_MOTD_LOADING);
+				MapLoader mapLoader = GameManager.getGameManager().getMapLoader();
+				int percentage = (int) mapLoader.getLoadingPercentage();
+				switch (mapLoader.getEnvironment()) {
+					case "NORMAL":
+						event.setMotd(Lang.DISPLAY_MOTD_LOADING_NORMAL.replace("%percentage%", String.valueOf(percentage)));
+						break;
+					case "NETHER":
+						event.setMotd(Lang.DISPLAY_MOTD_LOADING_NETHER.replace("%percentage%", String.valueOf(percentage)));
+						break;
+					default:
+						event.setMotd(Lang.DISPLAY_MOTD_LOADING);
+						break;
+				}
 				break;
 			case DEATHMATCH:
 			case PLAYING:

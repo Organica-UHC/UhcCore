@@ -50,6 +50,8 @@ public class Lang{
 	public static String DISPLAY_EPISODE_MARK;
 	public static String DISPLAY_SPECTATOR_CHAT;
 	public static String DISPLAY_MOTD_LOADING;
+	public static String DISPLAY_MOTD_LOADING_NORMAL;
+	public static String DISPLAY_MOTD_LOADING_NETHER;
 	public static String DISPLAY_MOTD_WAITING;
 	public static String DISPLAY_MOTD_STARTING;
 	public static String DISPLAY_MOTD_PLAYING;
@@ -256,11 +258,13 @@ public class Lang{
 		DISPLAY_MESSAGE_PREFIX = getString(lang, "display.message-prefix", "&a[UhcCore]&r");
 		DISPLAY_EPISODE_MARK = getString(lang, "display.episode-mark", "End of episode %episode%!");
 		DISPLAY_SPECTATOR_CHAT = getString(lang, "display.spectator-chat", "&7[Spec] &r%player%&r: %message%");
-		DISPLAY_MOTD_LOADING  = getString(lang, "display.motd-loading", "Loading ...");
-		DISPLAY_MOTD_WAITING  = getString(lang, "display.motd-waiting", "Waiting ...");
-		DISPLAY_MOTD_STARTING  = getString(lang, "display.motd-starting", "Starting");
-		DISPLAY_MOTD_PLAYING  = getString(lang, "display.motd-playing", "Playing");
-		DISPLAY_MOTD_ENDED  = getString(lang, "display.motd-ended", "Ended");
+		DISPLAY_MOTD_LOADING = getString(lang, "display.motd-loading", "Loading ...");
+		DISPLAY_MOTD_LOADING_NORMAL = getString(lang, "display.motd-loading-normal", "Loading Overworld ...");
+		DISPLAY_MOTD_LOADING_NETHER = getString(lang, "display.motd-loading-nether", "Loading Nether ...");
+		DISPLAY_MOTD_WAITING = getString(lang, "display.motd-waiting", "Waiting ...");
+		DISPLAY_MOTD_STARTING = getString(lang, "display.motd-starting", "Starting");
+		DISPLAY_MOTD_PLAYING = getString(lang, "display.motd-playing", "Playing");
+		DISPLAY_MOTD_ENDED = getString(lang, "display.motd-ended", "Ended");
 
 		// Kick
 		KICK_LOADING = getString(lang, "kick.loading", "Loading. Please retry in a few minutes.");

@@ -35,11 +35,20 @@ public class MapLoader {
 		mapSeed = -1;
 		mapName = null;
 	}
-	
-	public String getLoadingState(){
-		double percentage = 100*chunksLoaded/totalChunksToLoad;		
-		return environment+" "+(Math.floor(10*percentage)/10);
+
+	public String getEnvironment(){
+		return environment;
 	}
+
+	public double getLoadingPercentage(){
+		return 100*chunksLoaded/totalChunksToLoad;
+	}
+
+	public String getLoadingState(){
+		double percentage = getLoadingPercentage();
+		return getEnvironment()+" "+(Math.floor(10*percentage)/10);
+	}
+
 	
 	public void deleteLastWorld(String uuid){
 		if(uuid == null || uuid.equals("null")){
