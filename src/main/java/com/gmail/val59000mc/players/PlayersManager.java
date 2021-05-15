@@ -32,9 +32,7 @@ import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.command.CommandException;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -985,15 +983,25 @@ public class PlayersManager{
 		// DISABLED FOR ORGANICA GAMES
 		// VersionUtils.getVersionUtils().setEntityAI(zombie, false);
 		zombie.setAI(false);
-		zombie.setBaby(!player.getLocation().add(0, 1, 0).getBlock().isPassable());
+		if (!player.getLocation().add(0, 1, 0).getBlock().isPassable()) zombie.setBaby();
 		zombie.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 1, true, true));
 
 		EntityEquipment equipment = zombie.getEquipment();
-		equipment.setHelmet(VersionUtils.getVersionUtils().createPlayerSkull(player.getName(), player.getUniqueId()));
-		equipment.setChestplate(player.getInventory().getChestplate());
-		equipment.setLeggings(player.getInventory().getLeggings());
-		equipment.setBoots(player.getInventory().getBoots());
-		equipment.setItemInHand(player.getItemInHand());
+		if (equipment != null) {
+			equipment.setHelmet(VersionUtils.getVersionUtils().createPlayerSkull(player.getName(), player.getUniqueId()));
+			equipment.setChestplate(player.getInventory().getChestplate());
+			equipment.setLeggings(player.getInventory().getLeggings());
+			equipment.setBoots(player.getInventory().getBoots());
+			equipment.setItemInMainHand(player.getInventory().getItemInMainHand());
+			equipment.setItemInOffHand(player.getInventory().getItemInOffHand());
+
+			equipment.setHelmetDropChance(0f);
+			equipment.setChestplateDropChance(0f);
+			equipment.setLeggingsDropChance(0f);
+			equipment.setBootsDropChance(0f);
+			equipment.setItemInMainHandDropChance(0f);
+			equipment.setItemInOffHandDropChance(0f);
+		}
 
 		uhcPlayer.getStoredItems().clear();
 		for (ItemStack item : player.getInventory().getContents()){

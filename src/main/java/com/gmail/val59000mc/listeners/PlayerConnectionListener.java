@@ -75,11 +75,12 @@ public class PlayerConnectionListener implements Listener{
 		UhcPlayer uhcPlayer = playersManager.getUhcPlayer(player);
 
 		if(gameManager.getGameState().equals(GameState.WAITING) || gameManager.getGameState().equals(GameState.STARTING)) {
-			if(gameManager.getGameState().equals(GameState.STARTING) && !uhcPlayer.getState().equals(PlayerState.PLAYING)) {
-				playersManager.setPlayerSpectateAtLobby(uhcPlayer);
-				gameManager.broadcastInfoMessage(uhcPlayer.getName()+" has left while the game was starting and has been killed.");
-				playersManager.strikeLightning(uhcPlayer);
-
+			if(!uhcPlayer.getState().equals(PlayerState.PLAYING)) {
+				if (gameManager.getGameState().equals(GameState.STARTING)) {
+					playersManager.setPlayerSpectateAtLobby(uhcPlayer);
+					gameManager.broadcastInfoMessage(uhcPlayer.getName() + " has left while the game was starting and has been killed.");
+					playersManager.strikeLightning(uhcPlayer);
+				}
 				playersManager.getPlayersList().remove(uhcPlayer);
 			}
 
@@ -101,8 +102,9 @@ public class PlayerConnectionListener implements Listener{
 
 				Bukkit.getScheduler().runTaskLaterAsynchronously(UhcCore.getPlugin(), killDisconnectedPlayerThread,1);
 			}
+
 			if(gameManager.getConfiguration().getSpawnOfflinePlayers() && uhcPlayer.getState().equals(PlayerState.PLAYING)){
-				if (uhcPlayer.isNeedInitialize()) playersManager.spawnOfflineZombieFor(player);
+				/*if (!uhcPlayer.isNeedInitialize())*/ playersManager.spawnOfflineZombieFor(player);
 			}
 			playersManager.checkIfRemainingPlayers();
 		}
