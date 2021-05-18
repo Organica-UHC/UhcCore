@@ -15,16 +15,12 @@ public class TimeUtils{
 		time -= h * (60 * 60);
 		m = (int) time / 60;
 		time -= m * 60;
-		
-		if(h == 0){
-			if(m == 0){
-				return time+"s";
-			}else{
-				return m+"m "+time+"s";
-			}
-		}else{
-			return h+"h "+m+"m "+time+"s";
-		}
+
+		String hString = h < 10 ? "0" + h : String.valueOf(h);
+		String mString = m < 10 ? "0" + m : String.valueOf(m);
+		String sString = time < 10 ? "0" + time : String.valueOf(time);
+
+		return hString + ":" + mString + ":" + sString;
 	}
 
 }

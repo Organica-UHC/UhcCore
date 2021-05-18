@@ -78,40 +78,7 @@ public class UpdateScoreboardThread implements Runnable{
 			String second = "";
 
 			if (!line.isEmpty()) {
-
-				String translatedLine = scoreboardManager.translatePlaceholders(line, uhcPlayer, bukkitPlayer, scoreboardType);
-
-				if (translatedLine.length() <= 16){
-					first = translatedLine;
-				}else {
-
-					int split = 16;
-
-					first = translatedLine.substring(0, split);
-					boolean copyColor = true;
-
-					if (first.endsWith(COLOR_CHAR)){
-						copyColor = false;
-						split = 15;
-						first = translatedLine.substring(0, split);
-
-						if (first.substring(0, 14).endsWith(COLOR_CHAR)){
-							split = 13;
-							first = translatedLine.substring(0, split);
-						}
-					}
-
-					if (copyColor) {
-						second = ChatColor.getLastColors(first);
-					}
-
-					second += translatedLine.substring(split);
-
-					if (second.length() > 16){
-						Bukkit.getLogger().warning("[UhcCore] Scoreboard line is too long: '" + translatedLine + "'!");
-						second = "";
-					}
-				}
+				first = scoreboardManager.translatePlaceholders(line, uhcPlayer, bukkitPlayer, scoreboardType);
 			}
 
 			Team lineTeam = scoreboard.getTeam(scoreboardManager.getScoreboardLine(i));

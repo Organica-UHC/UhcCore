@@ -26,8 +26,12 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ScoreboardManager {
 
@@ -341,17 +345,6 @@ public class ScoreboardManager {
 
             String borderString = "+" + size + " -" + size;
 
-            int distanceX = size - (int) bukkitPlayer.getLocation().getX();
-            int distanceZ = size - (int) bukkitPlayer.getLocation().getZ();
-
-            if (distanceX <= 5 || distanceZ <= 5){
-                borderString = ChatColor.RED + borderString;
-            }else if (distanceX <= 50 || distanceZ <= 50){
-                borderString = ChatColor.YELLOW + borderString;
-            }else {
-                borderString = ChatColor.GREEN + borderString;
-            }
-
             returnString = returnString.replace("%border%",borderString);
         }
 
@@ -420,14 +413,16 @@ public class ScoreboardManager {
             returnString = returnString.replace("%money%", String.format("%.2f", VaultManager.getPlayerMoney(bukkitPlayer)));
         }
 
+        if (returnString.contains("%date%")){
+            String date = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                    .withLocale(new Locale("ru"))
+                    .format(LocalDateTime.now().toLocalDate());
+            returnString = returnString.replace("%date%", date);
+        }
+
         // Parse custom placeholders
         for (Placeholder placeholder : placeholders){
             returnString = placeholder.parseString(returnString, uhcPlayer, bukkitPlayer, scoreboardType);
-        }
-
-        if (returnString.length() > 32){
-            Bukkit.getLogger().warning("[UhcCore] Scoreboard line is too long: '" + returnString + "'!");
-            returnString = "";
         }
 
         return returnString;
