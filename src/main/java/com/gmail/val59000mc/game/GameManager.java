@@ -528,7 +528,7 @@ public class GameManager{
 				VersionUtils.getVersionUtils().setGameRuleValue(nether, "naturalRegeneration", false);
 			}
 			if (!configuration.getAnnounceAdvancements() && UhcCore.getVersion() >= 12){
-				VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
+				VersionUtils.getVersionUtils().setGameRuleValue(nether, "announceAdvancements", false);
 			}
 			if (configuration.isHideCoordinates()) {
 				VersionUtils.getVersionUtils().setGameRuleValue(nether, "reducedDebugInfo", true);
@@ -549,7 +549,7 @@ public class GameManager{
 				VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "naturalRegeneration", false);
 			}
 			if (!configuration.getAnnounceAdvancements() && UhcCore.getVersion() >= 12){
-				VersionUtils.getVersionUtils().setGameRuleValue(overworld, "announceAdvancements", false);
+				VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "announceAdvancements", false);
 			}
 			if (configuration.isHideCoordinates()) {
 				VersionUtils.getVersionUtils().setGameRuleValue(theEnd, "reducedDebugInfo", true);
