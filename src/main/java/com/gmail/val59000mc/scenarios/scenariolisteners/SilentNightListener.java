@@ -17,6 +17,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.Objects;
+
 public class SilentNightListener extends ScenarioListener{
 
     private boolean nightMode;
@@ -122,7 +124,7 @@ public class SilentNightListener extends ScenarioListener{
     }
 
     private boolean isNight(){
-        long time = getGameManager().getLobby().getLoc().getWorld().getTime();
+        long time = Objects.requireNonNull(Bukkit.getWorld(getGameManager().getConfiguration().getOverworldUuid())).getTime();
         return time > 12000;
     }
 
