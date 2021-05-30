@@ -67,8 +67,8 @@ public class UpdateScoreboardThread implements Runnable{
 			PlayersManager playersManager = GameManager.getGameManager().getPlayersManager();
 			for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 				double health = onlinePlayer.getHealth() + onlinePlayer.getAbsorptionAmount();
-				health_tab.getScore(onlinePlayer.getName()).setScore(((int) health));
-				health_tab.getScore(playersManager.getUhcPlayer(onlinePlayer).getName()).setScore(((int) health));
+				health_tab.getScore(onlinePlayer.getName()).setScore(((int) Math.ceil(health)));
+				health_tab.getScore(playersManager.getUhcPlayer(onlinePlayer).getName()).setScore(((int) Math.ceil(health)));
 			}
 		}
 		int i = 0;
