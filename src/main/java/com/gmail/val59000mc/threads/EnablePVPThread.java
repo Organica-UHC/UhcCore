@@ -32,9 +32,9 @@ public class EnablePVPThread implements Runnable{
 
 		if(timeBeforePvp <= 10 || (timeBeforePvp < 60*5 && timeBeforePvp%60 == 0) || timeBeforePvp%(60*5) == 0){
 			if(timeBeforePvp%60 == 0) {
-				gameManager.broadcastInfoMessage(Lang.PVP_START_IN + " " + (timeBeforePvp / 60) + "m");
+				gameManager.broadcastInfoMessage(Lang.PVP_START_IN + " " + (timeBeforePvp / 60) + " мин");
 			}else{
-				gameManager.broadcastInfoMessage(Lang.PVP_START_IN + " " + timeBeforePvp + "s");
+				gameManager.broadcastInfoMessage(Lang.PVP_START_IN + " " + timeBeforePvp + " с");
 			}
 
 			gameManager.getPlayersManager().playSoundToAll(UniversalSound.CLICK);

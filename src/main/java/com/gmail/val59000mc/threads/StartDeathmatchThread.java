@@ -41,7 +41,7 @@ public class StartDeathmatchThread implements Runnable{
 		}else{
 
 			if(timeBeforePVP <= 5 || (timeBeforePVP%5 == 0)){
-				gameManager.broadcastInfoMessage(Lang.PVP_START_IN+" "+timeBeforePVP+"s");
+				gameManager.broadcastInfoMessage(Lang.PVP_START_IN+" "+timeBeforePVP+" с");
 				gameManager.getPlayersManager().playSoundToAll(UniversalSound.CLICK);
 			}
 
