@@ -66,7 +66,7 @@ public class UhcTeam {
 	}
 
 	public void sendChatMessageToTeamMembers(UhcPlayer sender, String message){
-		sendMessage(ChatColor.GREEN+"[Team] "+ChatColor.RESET+sender.getRealName()+": "+message);
+		sendMessage(ChatColor.GREEN+"[Команда] "+ChatColor.RESET+sender.getRealName()+": "+message);
 	}
 
 	public void sendMessage(String message){
