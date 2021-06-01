@@ -24,8 +24,9 @@ public class TeamManager{
     };
     private static final String[] TEAM_COLOR_VARIATIONS = new String[]{
         "🪓", "🗡", "⚔", "🛡", "⚗", "🧪", "⚓", "🏹", "🎣",
-        "⭐",  "⚡", "🔥", "🌧", "☃", "☂", "🌊", "🔱", "✝",
-        "⌚",  "⌛", "⛏", "☠", "★", "☽", "☻", "♫", "✉"
+        "⭐", "⚡", "🔥", "🌧", "☃", "☂", "🌊", "🔱", "✝",
+        "⌚", "⌛", "⛏", "☠", "★", "☽", "☻", "♫", "✉",
+        "♦", "☄", "☀", "■", "↑", "✎", "⌀"
     };
 
     private final PlayersManager playersManager;
@@ -98,10 +99,14 @@ public class TeamManager{
 
     private void loadPrefixes(){
         prefixes = new LinkedHashSet<>();
+
+        List<String> variations = Arrays.asList(TEAM_COLOR_VARIATIONS);
+        Collections.shuffle(variations);
+
         for (int i = 0; i < Math.max(TEAM_COLOR_VARIATIONS.length, TEAM_COLORS.length); i++) {
-            prefixes.add(TEAM_COLORS[i % TEAM_COLORS.length] + TEAM_COLOR_VARIATIONS[i % TEAM_COLOR_VARIATIONS.length]);
+            prefixes.add(TEAM_COLORS[i % TEAM_COLORS.length] + variations.get(i % TEAM_COLOR_VARIATIONS.length));
         }
-        for (String colorVariation : TEAM_COLOR_VARIATIONS){
+        for (String colorVariation : variations){
             for (String color : TEAM_COLORS){
                 prefixes.add(color + colorVariation);
             }
