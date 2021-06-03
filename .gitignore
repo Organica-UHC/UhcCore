@@ -2,6 +2,9 @@
 /build/
 /bin/
 target/
+
+/Support-WorldEdit-6/
+/Support-WorldEdit-7/
  
 # OS Files #
 .DS_Store
@@ -9,7 +12,7 @@ target/
 *.class
  
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 *.db

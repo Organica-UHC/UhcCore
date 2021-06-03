@@ -29,16 +29,26 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
+import org.popcraft.chunky.Chunky;
+import org.popcraft.chunky.ChunkyBukkit;
+import org.popcraft.chunky.command.ChunkyCommand;
+import org.popcraft.chunky.platform.Sender;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameManager{
 
@@ -291,9 +301,59 @@ public class GameManager{
 		if(configuration.getEnableBungeeSupport())
 			UhcCore.getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(UhcCore.getPlugin(), "BungeeCord");
 
-		if(configuration.getEnablePregenerateWorld() && !configuration.getDebug())
-			mapLoader.generateChunks(Environment.NORMAL);
-		else
+		if(configuration.getEnablePregenerateWorld() && !configuration.getDebug()) {
+			Plugin plugin = Bukkit.getPluginManager().getPlugin("Chunky");
+			if (!(plugin instanceof ChunkyBukkit)) {
+				mapLoader.generateChunks(Environment.NORMAL);
+			} else {
+				Chunky chunky = ((ChunkyBukkit) plugin).getChunky();
+				Map<String, ChunkyCommand> commands = chunky.getCommands();
+				Sender consoleSender = chunky.getPlatform().getServer().getConsoleSender();
+
+				String overworld = configuration.getOverworldUuid();
+				String nether = configuration.getNetherUuid();
+				int size = worldBorder.getStartSize();
+
+				commands.get("cancel").execute(consoleSender, ("cancel " + nether).split(" "));
+				commands.get("confirm").execute(consoleSender, "confirm".split(" "));
+
+				commands.get("cancel").execute(consoleSender, ("cancel " + overworld).split(" "));
+				commands.get("confirm").execute(consoleSender, "confirm".split(" "));
+
+				BossBar bar = Bukkit.createBossBar("Генерация обычного мира...", BarColor.YELLOW, BarStyle.SOLID);
+				commands.get("start").execute(consoleSender, ("start " + overworld + " square 0 0 " + size).split(" "));
+
+				AtomicBoolean netherStarted = new AtomicBoolean(false);
+				Bukkit.getScheduler().runTaskTimer(UhcCore.getPlugin(), bukkitTask -> {
+					for (Player player : Bukkit.getOnlinePlayers()) {
+						bar.addPlayer(player);
+					}
+
+					chunky.getGenerationTasks().forEach((world, generationTask) -> {
+						if (world.getName().equals(overworld) || world.getName().equals(nether)) {
+							bar.setProgress(generationTask.getCount() / (double) generationTask.getChunkIterator().total());
+						}
+					});
+
+					if (chunky.getGenerationTasks().isEmpty()) {
+						if (!netherStarted.get()) {
+							if (configuration.getEnableNether()) {
+								bar.setTitle("Генерация Незера...");
+								bar.setColor(BarColor.RED);
+								bar.setProgress(0.0);
+								commands.get("start").execute(consoleSender, ("start " + nether + " square 0 0 " + (size / 2)).split(" "));
+							}
+							netherStarted.set(true);
+						} else {
+							bar.removeAll();
+							bukkitTask.cancel();
+						}
+					}
+				}, 1, 20);
+
+				startWaitingPlayers();
+			}
+		} else
 			startWaitingPlayers();
 	}
 

@@ -60,6 +60,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '20.1.0'
+
+    compileOnly fileTree(dir: 'lib', include: ['*.jar'])
 }
 
 task copyJarToRun(type: Copy) {
