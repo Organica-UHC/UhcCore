@@ -132,6 +132,7 @@ public class ScoreboardManager {
                     boolean hidePrefix = gameManager.getGameState().equals(GameState.PLAYING) && gameManager.getScenarioManager().isActivated(Scenario.ANONYMOUS);
                     team.setPrefix(!hidePrefix ? uhcTeam.getPrefix() : ChatColor.RESET + "");
                     team.setSuffix(ChatColor.RESET + "");
+                    team.setOption(Team.Option.NAME_TAG_VISIBILITY, hidePrefix ? Team.OptionStatus.NEVER : Team.OptionStatus.ALWAYS);
 
                     for (UhcPlayer member : uhcTeam.getMembers()) {
 
@@ -161,6 +162,7 @@ public class ScoreboardManager {
                     boolean hidePrefix = gameManager.getGameState().equals(GameState.PLAYING) && gameManager.getScenarioManager().isActivated(Scenario.ANONYMOUS);
                     team.setPrefix(!hidePrefix ? uhcTeam.getPrefix() : ChatColor.RESET + "");
                     team.setSuffix(ChatColor.RESET + "");
+                    team.setOption(Team.Option.NAME_TAG_VISIBILITY, hidePrefix ? Team.OptionStatus.NEVER : Team.OptionStatus.ALWAYS);
 
                     if (gm.getConfiguration().getDisableEnemyNametags()){
                         VersionUtils.getVersionUtils().setTeamNameTagVisibility(team, false);
@@ -242,6 +244,7 @@ public class ScoreboardManager {
                         boolean hidePrefix = gameManager.getGameState().equals(GameState.PLAYING) && gameManager.getScenarioManager().isActivated(Scenario.ANONYMOUS);
                         team.setPrefix(!hidePrefix ? uhcPlayer.getTeam().getPrefix() : ChatColor.RESET + "");
                         team.setSuffix(ChatColor.RESET + "");
+                        team.setOption(Team.Option.NAME_TAG_VISIBILITY, hidePrefix ? Team.OptionStatus.NEVER : Team.OptionStatus.ALWAYS);
                         team.addEntry(uhcPlayer.getName());
 
                     } else {
@@ -259,6 +262,7 @@ public class ScoreboardManager {
                         boolean hidePrefix = gameManager.getGameState().equals(GameState.PLAYING) && gameManager.getScenarioManager().isActivated(Scenario.ANONYMOUS);
                         team.setPrefix(!hidePrefix ? uhcPlayer.getTeam().getPrefix() : ChatColor.RESET + "");
                         team.setSuffix(ChatColor.RESET + "");
+                        team.setOption(Team.Option.NAME_TAG_VISIBILITY, hidePrefix ? Team.OptionStatus.NEVER : Team.OptionStatus.ALWAYS);
                         team.addEntry(uhcPlayer.getName());
                     }
 
