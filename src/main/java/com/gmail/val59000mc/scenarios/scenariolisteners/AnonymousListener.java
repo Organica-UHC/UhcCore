@@ -70,17 +70,19 @@ public class AnonymousListener extends ScenarioListener{
     }
 
     private String getPlayerNickName(String name){
-        if (name.length() > 12){
-            name = name.substring(0, 12);
+        if (name.length() > 8){
+            name = name.substring(0, 8);
         }
 
         StringBuilder sb = new StringBuilder();
         sb.append("\uF800");
+        sb.append("§k");
         sb.append(name.toUpperCase().replace('I', '='));
 
-        while (sb.length() < 14){
-            sb.append("\uF826");
+        while (sb.length() < 13){
+            sb.append("A");
         }
+        sb.append("§r");
 
         sb.append("\uF820");
         return sb.toString();
