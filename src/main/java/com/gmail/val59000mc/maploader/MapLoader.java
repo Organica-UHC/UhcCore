@@ -255,9 +255,9 @@ public class MapLoader {
 			        	int loaded = 0;
 						while(i<= maxChunk && j <= maxChunk && loaded < chunksPerTick){
 							world.loadChunk(i, j);
-							if(isGenerateVeins){
-								veinsGenerated += veinGenerator.generateVeinsInChunk(world.getChunkAt(i, j));
-							}
+//							if(isGenerateVeins){
+//								veinsGenerated += veinGenerator.generateVeinsInChunk(world.getChunkAt(i, j));
+//							}
 							if (!world.isChunkInUse(i, j)){
 								world.unloadChunk(i, j);
 							}

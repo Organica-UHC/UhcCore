@@ -3,6 +3,7 @@ package com.gmail.val59000mc.maploader;
 import com.gmail.val59000mc.configuration.GenerateVeinConfiguration;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,16 +33,16 @@ public class VeinGenerator {
 		for(Entry<Material,GenerateVeinConfiguration> entry : generateVeins.entrySet()){
 			GenerateVeinConfiguration veinCfg = entry.getValue();
 			Material material = entry.getKey();
-			
+
 			int randNbrVeins = RandomUtils.randomInteger(veinCfg.getMinVeinsPerChunk(), veinCfg.getMaxVeinsPerChunk());
-			
+
 			for(int i=0 ; i<randNbrVeins ; i++){
 				int randNbrBlocks =  RandomUtils.randomInteger(veinCfg.getMinBlocksPerVein(), veinCfg.getMaxBlocksPerVein());
 				if(randNbrBlocks > 0){
 					int randX = RandomUtils.randomInteger(0, 15);
 					int randY = RandomUtils.randomInteger(veinCfg.getMinY(),veinCfg.getMaxY());
 					int randZ = RandomUtils.randomInteger(0, 15);
-					Block randBlock = tryAdjustingToProperBlock(chunk.getBlock(randX, randY, randZ));
+					Block randBlock = tryAdjustingToProperBlock(chunk, randX, randY, randZ);
 					if(randBlock != null){
 						totalNbrVeins++;
 						generateVein(material,randBlock,randNbrBlocks);
@@ -57,7 +58,9 @@ public class VeinGenerator {
 	 * @param randBlock
 	 * @return a non AIR/WATER Block if found, else null
 	 */
-	private Block tryAdjustingToProperBlock(Block randBlock) {
+	private Block tryAdjustingToProperBlock(Chunk chunk, int randX, int randY, int randZ) {
+		Block randBlock = chunk.getBlock(randX, randY, randZ);
+
 		if(randBlock.getType().equals(Material.STONE)){
 			return randBlock;
 		}
@@ -76,7 +79,15 @@ public class VeinGenerator {
 		for(int i = -5; i<=5 ; i++){
 			for(int j = -5; j<=5 ; j++){
 				for(int k = -5; k<=5 ; k++){
-					Block relativeBlock = randBlock.getRelative(i, j, k);
+					int y = Math.min(255, Math.max(0, randY + j));
+
+					int x = (randX + i) % 16;
+					if (x < 0) x += 16;
+
+					int z = (randZ + k) % 16;
+					if (z < 0) z += 16;
+
+					Block relativeBlock = chunk.getBlock(x, y, z);
 					if(relativeBlock.getType().equals(Material.STONE)){
 						return relativeBlock;
 					}
@@ -93,9 +104,14 @@ public class VeinGenerator {
 	 * @param nbrBlocks : the number of blocks in the vein
 	 */
 	private void generateVein(Material material, Block startBlock, int nbrBlocks){
-		List<Block> blocks = getAdjacentsBlocks(startBlock,nbrBlocks);
+		List<Block> blocks = getAdjacentsBlocks(startBlock, nbrBlocks);
+		int size = blocks.size();
+//		if (size > 20) {
+//			Bukkit.broadcastMessage(String.valueOf(size));
+//		}
 		for(Block block : blocks){
-			block.setType(material);
+//			if (size > 20) Bukkit.broadcastMessage("    " + String.valueOf(block.getLocation()));
+			block.setType(material, false);
 		}
 	}
 	
@@ -109,10 +125,15 @@ public class VeinGenerator {
 		int failedAttempts = 0;
 		List<Block> adjacentBlocks = new ArrayList<>();
 		adjacentBlocks.add(startBlock);
+
+		Chunk chunk = startBlock.getChunk();
+		int chunkX = chunk.getX() * 16;
+		int chunkZ = chunk.getZ() * 16;
+
 		while(adjacentBlocks.size() < nbrBlocks && failedAttempts < 25){
 			// Get random block in the growing list of chosen blocks
 			Block block = adjacentBlocks.get(RandomUtils.randomInteger(0, adjacentBlocks.size()-1));
-			
+
 			// RandomFace
 			BlockFace face = RandomUtils.randomAdjacentFace();
 			Location blockLocation = block.getLocation();
@@ -120,7 +141,15 @@ public class VeinGenerator {
 				failedAttempts++;
 			}else{
 				// Find random adjacent block to this block
-				Block adjacent = block.getRelative(face);
+				int y = block.getY() + face.getModY();
+
+				int x = (block.getX() - chunkX + face.getModX()) % 16;
+				if (x < 0) x += 16;
+
+				int z = (block.getZ() - chunkZ + face.getModZ()) % 16;
+				if (z < 0) z += 16;
+
+				Block adjacent = chunk.getBlock(x, y, z);
 				if(adjacentBlocks.contains(adjacent) || !adjacent.getType().equals(Material.STONE)){
 					// We only want to find new discovered block inside stone to avoid placing ores in mid-air in the caves.
 					failedAttempts++;
@@ -128,8 +157,8 @@ public class VeinGenerator {
 					adjacentBlocks.add(adjacent);
 				}
 			}
-			
-			
+
+
 		}
 		return adjacentBlocks;
 	}
