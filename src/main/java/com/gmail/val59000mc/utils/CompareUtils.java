@@ -26,7 +26,7 @@ public class CompareUtils {
 				&& !name.contains(" ");
 
 		if (valid){
-			name = name.replaceAll("[_a-zA-Z0-9]", "");
+			name = name.replaceAll("[_a-zA-Z0-9а-яА-яЁё]", "");
 			valid = name.isEmpty();
 		}
 

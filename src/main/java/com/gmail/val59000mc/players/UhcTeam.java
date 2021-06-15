@@ -31,10 +31,10 @@ public class UhcTeam {
 		members = new ArrayList<>();
 		readyToStart = GameManager.getGameManager().getConfiguration().getTeamAlwaysReady();
 		teamNumber = GameManager.getGameManager().getTeamManager().getNewTeamNumber();
-		teamName = "Team " + teamNumber;
+		teamName = "Команда " + teamNumber;
 		prefix = GameManager.getGameManager().getTeamManager().getTeamPrefix();
 		members.add(uhcPlayer);
-		teamInventory = Bukkit.createInventory(null, 9*3, ChatColor.GOLD + "Team Inventory");
+		teamInventory = Bukkit.createInventory(null, 9*3, ChatColor.GOLD + "Командный инвентарь");
 	}
 
 	public int getTeamNumber() {
