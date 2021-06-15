@@ -26,6 +26,7 @@ import org.bukkit.scoreboard.RenderType;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class UhcPlayer {
 	private final String name;
@@ -268,7 +269,12 @@ public class UhcPlayer {
 	public void inviteToTeam(UhcTeam team){
 		teamInvites.add(team);
 
-		String message = Lang.TEAM_MESSAGE_INVITE_RECEIVE.replace("%name%", team.getTeamName());
+		String message = Lang.TEAM_MESSAGE_INVITE_RECEIVE
+				.replace("%name%", team.getTeamName())
+				.replace("%members%", team.getMembers().stream()
+						.map(UhcPlayer::getName)
+						.collect(Collectors.toSet())
+						.toString().replace("[", "").replace("]", ""));
 
 		if (UhcCore.isSpigotServer()){
 			SpigotUtils.sendMessage(this, message, Lang.TEAM_MESSAGE_INVITE_RECEIVE_HOVER, "/team invite-reply " + team.getLeader().getName(), SpigotUtils.Action.COMMAND);
