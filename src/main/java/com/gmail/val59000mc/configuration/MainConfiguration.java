@@ -383,7 +383,7 @@ public class MainConfiguration {
 
 				Validate.notNull(type, "Invalid potion effect type: " + potionArr[0]);
 
-				PotionEffect effect = new PotionEffect(type, duration, amplifier);
+				PotionEffect effect = new PotionEffect(type, duration, amplifier, true, true);
 				potionEffectOnStart.add(effect);
 			}catch(IllegalArgumentException e){
 				Bukkit.getLogger().warning("[UhcCore] "+potionStr+" ignored, please check the syntax. It must be formated like POTION_NAME/duration/amplifier");
