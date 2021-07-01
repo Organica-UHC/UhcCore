@@ -897,6 +897,13 @@ public class PlayersManager{
 			UhcPlayer uhcKiller = pm.getUhcPlayer(killer);
 
 			uhcKiller.kills++;
+			if (uhcKiller.isOnline()) {
+				try {
+					uhcKiller.getPlayer().incrementStatistic(Statistic.PLAYER_KILLS, 1);
+				} catch (UhcPlayerNotOnlineException e) {
+					e.printStackTrace();
+				}
+			}
 
 			// Call Bukkit event
 			UhcPlayerKillEvent killEvent = new UhcPlayerKillEvent(uhcKiller, uhcPlayer);
