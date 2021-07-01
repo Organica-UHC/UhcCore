@@ -3,8 +3,8 @@ main: com.gmail.val59000mc.UhcCore
 version: @version@
 description: Automates UHC games on a dedicated server
 author: val59000mc, Mezy
-softdepend: [WorldEdit,Vault,ProtocolLib]
-loadbefore:  [OrganicaRating,Chunky]
+softdepend: [WorldEdit,Vault,ProtocolLib,Chunky]
+loadbefore:  [OrganicaRating]
 api-version: 1.13
 commands:
   uhccore:
