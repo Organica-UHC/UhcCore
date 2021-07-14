@@ -27,8 +27,11 @@ import com.google.gson.JsonObject;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.advancement.Advancement;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -38,14 +41,23 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.popcraft.chunky.Chunky;
 import org.popcraft.chunky.ChunkyBukkit;
 import org.popcraft.chunky.command.ChunkyCommand;
 import org.popcraft.chunky.platform.Sender;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -377,12 +389,12 @@ public class GameManager{
 			}
 
 			// Deleting old players advancements
-			File advancements = new File(Bukkit.getServer().getWorlds().get(0).getName()+"/advancements");
-			if(advancements.exists() && advancements.isDirectory()){
-				for(File advancementFile : advancements.listFiles()){
-					advancementFile.delete();
-				}
-			}
+//			File advancements = new File(Bukkit.getServer().getWorlds().get(0).getName()+"/advancements");
+//			if(advancements.exists() && advancements.isDirectory()){
+//				for(File advancementFile : advancements.listFiles()){
+//					advancementFile.delete();
+//				}
+//			}
 		}
 
 	}

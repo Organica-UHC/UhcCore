@@ -29,6 +29,8 @@ import com.gmail.val59000mc.utils.VersionUtils;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.*;
+import org.bukkit.advancement.Advancement;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.command.CommandException;
@@ -209,6 +211,18 @@ public class PlayersManager{
 		return playingPlayers;
 	}
 
+	public void clearAdvancements(Player player) {
+		Iterator<Advancement> iterator = Bukkit.advancementIterator();
+		while (iterator.hasNext()) {
+			AdvancementProgress progress = player.getAdvancementProgress(iterator.next());
+			for (String criterion : progress.getAwardedCriteria()) {
+				if (!criterion.startsWith("organica")) {
+					progress.revokeCriteria(criterion);
+				}
+			}
+		}
+	}
+
 	public void playerJoinsTheGame(Player player) {
 		UhcPlayer uhcPlayer;
 
@@ -317,6 +331,7 @@ public class PlayersManager{
 			player = uhcPlayer.getPlayer();
 			player.teleport(gm.getLobby().getLoc());
 			clearPlayerInventory(player);
+			clearAdvancements(player);
 			player.setGameMode(GameMode.ADVENTURE);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 99999999, 0), false);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999999, 0), false);
@@ -344,6 +359,7 @@ public class PlayersManager{
 			try {
 				player = uhcPlayer.getPlayer();
 				clearPlayerInventory(player);
+				clearAdvancements(player);
 				player.setFireTicks(0);
 
 				for(PotionEffect effect : player.getActivePotionEffects())
