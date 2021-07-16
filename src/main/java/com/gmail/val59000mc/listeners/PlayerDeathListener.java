@@ -17,6 +17,9 @@ import com.gmail.val59000mc.scenarios.scenariolisteners.SilentNightListener;
 import com.gmail.val59000mc.threads.TimeBeforeSendBungeeThread;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import com.gmail.val59000mc.utils.VersionUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
@@ -29,6 +32,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerDeathListener implements Listener{
@@ -135,8 +139,40 @@ public class PlayerDeathListener implements Listener{
 				Bukkit.getScheduler().runTaskAsynchronously(UhcCore.getPlugin(), new TimeBeforeSendBungeeThread(pm, uhcPlayer, cfg.getTimeBeforeSendBungeeAfterDeath()));
 			} else {
 				Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> {
-					player.kickPlayer(Lang.DISPLAY_MESSAGE_PREFIX + " " + Lang.KICK_DEAD
-							+ "\n" + Lang.KICK_CAUSE + " " + event.getDeathMessage());
+					Component deathMessage = event.deathMessage();
+					if (deathMessage == null) deathMessage = Component.text("—");
+
+					if (deathMessage instanceof TranslatableComponent) {
+						TranslatableComponent message = (TranslatableComponent) deathMessage;
+						List<Component> messageArgs = new ArrayList<>(message.args());
+						for (int i = 0; i < messageArgs.size(); i++) {
+							Component messageArg = messageArgs.get(i);
+							if (!(messageArg instanceof TranslatableComponent)) continue;
+							TranslatableComponent translatableMessageArg = (TranslatableComponent) messageArg;
+							if (!translatableMessageArg.key().equals("chat.square_brackets")) continue;
+							List<Component> bracketsArgs = new ArrayList<>(translatableMessageArg.args());
+							for (int j = 0; j < bracketsArgs.size(); j++) {
+								Component bracketsArg = bracketsArgs.get(j);
+								if (!(bracketsArg instanceof TextComponent) || !((TextComponent) bracketsArg).content().equals("")) continue;
+								for (Component bracketsArgChild : bracketsArg.children()) {
+									if (!(bracketsArgChild instanceof TranslatableComponent)) continue;
+									TranslatableComponent translatableBracketsArgChild = (TranslatableComponent) bracketsArgChild;
+									String key = translatableBracketsArgChild.key();
+									if (!key.startsWith("item.organica.")) continue;
+									StringBuilder sb = new StringBuilder();
+									for(String word : key.replace("item.organica.", "").split("_")){
+										if (word.length() < 2) continue;
+										sb.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(" ");
+									}
+									bracketsArgs.set(j, translatableBracketsArgChild.key(sb.toString().trim()));
+								}
+							}
+							messageArgs.set(i, translatableMessageArg.args(bracketsArgs));
+						}
+						deathMessage = message.args(messageArgs);
+					}
+					player.kick(Component.text(Lang.DISPLAY_MESSAGE_PREFIX + " " + Lang.KICK_DEAD
+							+ "\n" + Lang.KICK_CAUSE + " ").append(deathMessage));
 				});
 			}
 		}
