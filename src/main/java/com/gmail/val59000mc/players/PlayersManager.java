@@ -954,7 +954,9 @@ public class PlayersManager{
 		// eliminations
 		ScenarioManager sm = gm.getScenarioManager();
 		if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
-			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", uhcPlayer.getName()));
+			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> {
+				gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", uhcPlayer.getName()));
+			});
 		}
 
 		if(cfg.getRegenHeadDropOnPlayerDeath()){

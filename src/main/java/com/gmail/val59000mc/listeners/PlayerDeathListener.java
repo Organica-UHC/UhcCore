@@ -88,7 +88,9 @@ public class PlayerDeathListener implements Listener{
 		// eliminations
 		ScenarioManager sm = gm.getScenarioManager();
 		if (!sm.isActivated(Scenario.SILENTNIGHT) || !((SilentNightListener) sm.getScenarioListener(Scenario.SILENTNIGHT)).isNightMode()) {
-			gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
+			Bukkit.getScheduler().runTask(UhcCore.getPlugin(), () -> {
+				gm.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", player.getName()));
+			});
 		}
 
 		if(cfg.getRegenHeadDropOnPlayerDeath()){
