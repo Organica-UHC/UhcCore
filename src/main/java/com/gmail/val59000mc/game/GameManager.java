@@ -584,6 +584,7 @@ public class GameManager{
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "sendCommandFeedback", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doMobSpawning", false);
 		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "doWeatherCycle", false);
+		VersionUtils.getVersionUtils().setGameRuleValue(overworld, "playersSleepingPercentage", 101);
 		//VersionUtils.getVersionUtils().setGameRuleValue(overworld, "spectatorGenerateChunks", false);
 		if (configuration.isHideCoordinates()) {
 			VersionUtils.getVersionUtils().setGameRuleValue(overworld, "reducedDebugInfo", true);
